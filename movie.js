@@ -19,6 +19,10 @@ function updateSelectedCount() {
   //console.log(selectedSeatsCount);
   // console.log(selectedSeats);
 
+  const seatIndex = [...selectedSeats].map(function (seat) {
+    return [...seats].indexOf(seats);
+  });
+
   count.innerText = selectedSeatsCount;
   total.innerText = selectedSeatsCount * ticketPrice;
 }
