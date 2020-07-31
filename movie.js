@@ -12,6 +12,11 @@ const movieSelect = document.querySelector("#movie");
 // Select film
 let ticketPrice = +movieSelect.value;
 
+// Save selected movie index and price
+function setMovieData(movieIndex, moviPrice) {
+  localStorage.setItem("selectedMovieIndex", movieIndex);
+  localStorage.setItem("selectedMoviePrice", movieIndex);
+}
 // Update total and count
 function updateSelectedCount() {
   const selectedSeats = document.querySelectorAll(".row .seat.selected");
@@ -24,7 +29,10 @@ function updateSelectedCount() {
   // });
   // Short way to write setIndex function
   const seatIndex = [...selectedSeats].map((seat) => [...seats].indexOf(seat));
-  console.log(seatIndex);
+
+  // LOCLA STORAGE
+  localStorage.setItem("selectedSeats", JSON.stringify(seatIndex));
+  // console.log(seatIndex);
 
   count.innerText = selectedSeatsCount;
   total.innerText = selectedSeatsCount * ticketPrice;
@@ -32,6 +40,8 @@ function updateSelectedCount() {
 //Choose movie
 function chooseMovie(e) {
   ticketPrice = +e.target.value;
+  // With function setMovieData we wil save movie selected values in local storage
+  setMovieData(e.target.selectedIndex, e.target.value);
   updateSelectedCount();
 }
 
