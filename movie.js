@@ -12,10 +12,12 @@ const movieSelect = document.querySelector("#movie");
 // Select film
 let ticketPrice = +movieSelect.value;
 
+//Populate UI
+populateUI();
 // Save selected movie index and price
-function setMovieData(movieIndex, moviPrice) {
+function setMovieData(movieIndex, moviePrice) {
   localStorage.setItem("selectedMovieIndex", movieIndex);
-  localStorage.setItem("selectedMoviePrice", movieIndex);
+  localStorage.setItem("selectedMoviePrice", moviePrice);
 }
 // Update total and count
 function updateSelectedCount() {
@@ -23,20 +25,42 @@ function updateSelectedCount() {
   const selectedSeatsCount = selectedSeats.length;
   //console.log(selectedSeatsCount);
   // console.log(selectedSeats);
-
+  // Process: 1. Copy selected seats, 2. Map through array, 3. retturn a new array indexes usin spread operator
   // const seatIndex = [...selectedSeats].map(function (seat) {
   //   return [...seats].indexOf(seat);
   // });
   // Short way to write setIndex function
   const seatIndex = [...selectedSeats].map((seat) => [...seats].indexOf(seat));
 
-  // LOCLA STORAGE
+  // LOCLA STORAGE -JSON.stringify -> convert elements to string
   localStorage.setItem("selectedSeats", JSON.stringify(seatIndex));
   // console.log(seatIndex);
 
   count.innerText = selectedSeatsCount;
   total.innerText = selectedSeatsCount * ticketPrice;
 }
+
+// Get data from localstorage and populate UI
+function populateUI() {
+  // JSON.parse
+  const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
+  console.log(selectedSeats);
+  if (selectedSeats !== null && selectedSeats.length > 0) {
+    seats.forEach(function (seat, index) {
+      // if it not there->selected seats ( indexOf(index)>-1) than we wil give you color Blue!
+      if (selectedSeats.indexOf(index) > -1) {
+        seat.classList.add("selected");
+      }
+    });
+  }
+  // Saving movies to lacalStorage
+  const selectedMovieIndex = localStorage.getItem(selectedMovieIndex);
+  // If selected movie index is not in localstorage, then we wil take movieSelectIndex and set the selected index to whatever selectedMindex is
+  if (selectedMovieIndex !== 0) {
+    movieSelect.selectedIndex = selectedMovieIndex;
+  }
+}
+
 //Choose movie
 function chooseMovie(e) {
   ticketPrice = +e.target.value;
