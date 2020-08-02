@@ -9,11 +9,12 @@ const movieSelect = document.querySelector("#movie");
 //Turning to the number two ways:
 // const ticketSelect = parseInt(movieSelect.value);, +movieSelect.value
 
+//Populate UI
+populateUI();
+
 // Select film
 let ticketPrice = +movieSelect.value;
 
-//Populate UI
-populateUI();
 // Save selected movie index and price
 function setMovieData(movieIndex, moviePrice) {
   localStorage.setItem("selectedMovieIndex", movieIndex);
@@ -35,7 +36,6 @@ function updateSelectedCount() {
   // LOCLA STORAGE -JSON.stringify -> convert elements to string
   localStorage.setItem("selectedSeats", JSON.stringify(seatIndex));
   // console.log(seatIndex);
-
   count.innerText = selectedSeatsCount;
   total.innerText = selectedSeatsCount * ticketPrice;
 }
@@ -54,7 +54,7 @@ function populateUI() {
     });
   }
   // Saving movies to lacalStorage
-  const selectedMovieIndex = localStorage.getItem(selectedMovieIndex);
+  const selectedMovieIndex = localStorage.getItem("selectedMovieIndex");
   // If selected movie index is not in localstorage, then we wil take movieSelectIndex and set the selected index to whatever selectedMindex is
   if (selectedMovieIndex !== 0) {
     movieSelect.selectedIndex = selectedMovieIndex;
@@ -82,12 +82,13 @@ function seatFunction(e) {
   // Then go and update selected count
   updateSelectedCount();
 }
-// Update the count and price
 
 // ADD EVENT LISTENER
 // Seat  click event
 //  When I want to click on seats I want ot change the vclass to another ligt blue color
 container.addEventListener("click", seatFunction);
-//container.addEventListener("click", updateSelectedCount);
+
 // Movie select event
 movieSelect.addEventListener("change", chooseMovie);
+// Initialize
+updateSelectedCount();
